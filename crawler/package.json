@@ -1,0 +1,13 @@
+{
+    "name": "nba-crawler",
+    "description": "A package to crawl NBA player information",
+    "author": "Mahesh Yellai <mahesh.yellai@infruid.com>",
+    "dependencies": {
+        "coffee-script": ">= 1.6.3",
+        "elasticsearchclient": ">= 0.5.1",
+        "jsdom": ">= 0.6.5",
+        "request": ">= 2.21.0",
+        "winston": ">= 0.7.2"
+    },
+    "engine": "node 0.10.12"
+}
