@@ -13,6 +13,7 @@ Use config.coffee to configure crawler.
 
 ElasticSearch server must be started before crawler is run.
 
+To run crawler:
 
 `cd crawler`
 
