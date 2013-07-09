@@ -1,0 +1,52 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #00B7FF;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #333;
+    margin: 1em 0;
+    padding: 0;
+}
+
+#container {
+    text-align: center;
+}
+
+#searchInputContainer {
+    position: relative;
+}
+
+#searchInput {
+    height: 30px;
+    width: 300px;
+    padding-right: 36px;
+}
+
+#searchImg {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    margin-left: 144px;
+    width: 24px;
+    height: 24px;
+}
+
+.slick-header-column {
+    font-weight: bold;
+    text-align: center;
+}
+
+#searchResults {
+    display: none;
+    border: 1px solid Gray;
+    border-radius: 6px;
+    text-align: left;
+}
