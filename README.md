@@ -23,3 +23,18 @@ To run crawler:
 
 
 crawler logs in crawler/log
+
+## search
+
+Use config.coffee to configure search.
+
+ElasticSearch server must be started before search is run.
+
+To run search:
+
+`cd search`
+
+`npm install`
+
+`coffee app.coffee`
+
