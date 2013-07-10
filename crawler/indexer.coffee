@@ -35,6 +35,7 @@ class Indexer
                                 "college": { "type": "string" }
                                 "draftYear": { "type": "string" }
                                 "debutYear": { "type": "string" }
+                                "url": {"type": "string", "index": "no"}
                             }
                         }
                     }

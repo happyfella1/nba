@@ -38,3 +38,5 @@ To run search:
 
 `coffee app.coffee`
 
+In your web browser goto 'localhost:3000'
+

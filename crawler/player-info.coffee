@@ -4,8 +4,9 @@ class PlayerInfo
     college: ''
     draftYear: ''
     debutYear: ''
+    url: ''
 
-    constructor: (@name, @position, @college, @draftYear, @debutYear) ->
+    constructor: (@name, @position, @college, @draftYear, @debutYear, @url) ->
         if (@position.indexOf('Center-Forward') == 0)
             @position = 'Center-Forward'
         else if (@position.indexOf('Guard-Forward') == 0)
@@ -31,6 +32,6 @@ class PlayerInfo
         "#{@name}, #{@position}, #{@college}, #{@draftYear}, #{@debutYear}"
 
     toJSON: =>
-        '{"name": "' + @name + '", "position": "' + @position + '", "college": "' + @college + '", "draftYear": "' + @draftYear + '", "debutYear": "' + @debutYear + '"}'
+        '{"name": "' + @name + '", "position": "' + @position + '", "college": "' + @college + '", "draftYear": "' + @draftYear + '", "debutYear": "' + @debutYear + '", "url": "' + @url + '"}'
 
 module.exports = PlayerInfo

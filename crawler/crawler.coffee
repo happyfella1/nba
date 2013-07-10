@@ -15,33 +15,38 @@ process.on('uncaughtException',
 )
 
 crawler = 
-    crawl: (url, resultHandler, attempt) ->
+    crawl: (relativeUrl, resultHandler, attempt) =>
         request({
-                uri: url
-            }, 
-            (error, response, body) ->
-                if (error || response.statusCode != 200)
-                    logger.error('Failed to crawl: ' + url + ' - ' + error)
-                    crawler.crawl(url, resultHandler, attempt + 1) if (attempt <= config.crawler.maxAttemptsOnError)
-                    return
+                    uri: config.crawler.rootUrl + relativeUrl
+                },
+                (error, response, body) ->
+                    if (error || response.statusCode != 200)
+                        logger.info('Failed to crawl page: ' + config.crawler.rootUrl + relativeUrl)
+                        logger.error(error)
+                        if (attempt <= config.crawler.maxAttemptsOnError)
+                            crawler.crawl(relativeUrl, resultHandler, attempt + 1)
+                        return
 
-                jsdom.env({
-                    html: body,
-                    src: [jquery],
-                    done: (errors, window) -> 
-                        if (errors)
-                            logger.info('Failed to crawl page: ' + url)
-                            logger.error(errors)
-                            crawler.crawl(url, resultHandler, attempt + 1) if (attempt <= config.crawler.maxAttemptsOnError)
-                            return
+                    jsdom.env({
+                        html: body,
+                        src: [jquery],
+                        done: (errors, window) -> 
+                            if (errors)
+                                logger.info('Failed to crawl page: ' + config.crawler.rootUrl + relativeUrl)
+                                logger.error(errors)
+                                if (attempt <= config.crawler.maxAttemptsOnError)
+                                    crawler.crawl(relativeUrl, resultHandler, attempt + 1)
+                                return
 
-                        logger.info('Successfully crawled page: ' + url)
-                        $ = window.$
-                        resultHandler($)
-                })
+                            jQuery = window.jQuery
+                            logger.info('Successfully crawled page: ' + config.crawler.rootUrl + relativeUrl)
+                            resultHandler(config.crawler.rootUrl + relativeUrl, jQuery)
+                    })
         )
 
-pageHandler = new PageHandler(crawler, config.crawler.rootUrl, logger)
-crawler.crawl(config.crawler.rootUrl + config.crawler.startUrl, pageHandler.handleLandingPage, 1)
+    crawlingComplete: () =>
+        if (pageCounter == 0)
+            console.log('Done crawling')
 
-#crawler.crawl('http://www.basketball-reference.com/players/a/abdelal01.html', pageHandler.handlePlayerPage, 1)
+pageHandler = new PageHandler(crawler, logger)
+crawler.crawl(config.crawler.startUrl, pageHandler.handleLandingPage, 1)

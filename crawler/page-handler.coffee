@@ -3,27 +3,26 @@ Indexer = require('./indexer')
 
 class PageHandler
     crawler: null
-    rootUrl: ''
     logger: null
     indexer: null
 
-    constructor: (@crawler, @rootUrl, @logger) ->
+    constructor: (@crawler, @logger) ->
         @indexer = new Indexer(@logger)
 
-    handleLandingPage: ($) =>
-        $('#page_content table td.xx_large_text a').each (index, element) =>
-            url = $(element).attr('href')
-            @crawler.crawl(@rootUrl + url, @handleListingPage, 1)
+    handleLandingPage: (pageUrl, jQuery) =>
+        jQuery('#page_content table td.xx_large_text a').each (index, element) =>
+            url = jQuery(element).attr('href')
+            @crawler.crawl(url, @handleListingPage, 1)
 
-    handleListingPage: ($) =>
-        $('#players tr').each (index, element) =>
-            playerLink = $(element).find('td:first-child a')
+    handleListingPage: (pageUrl, jQuery) =>
+        jQuery('#players tr').each (index, element) =>
+            playerLink = jQuery(element).find('td:first-child a')
             return if (playerLink.length == 0)
             url = playerLink.attr('href')
-            @crawler.crawl(@rootUrl + url, @handlePlayerPage, 1)
+            @crawler.crawl(url, @handlePlayerPage, 1)
 
-    handlePlayerPage: ($) =>
-        playerInfoBox = $('#info_box')
+    handlePlayerPage: (pageUrl, jQuery) =>
+        playerInfoBox = jQuery('#info_box')
         playerNameH1 = playerInfoBox.find('h1')
         if (playerNameH1.length == 0)
             @logger.info('Failed to get player details') 
@@ -59,7 +58,7 @@ class PageHandler
             else
                 playerDebut = ''
         
-        playerInfo = new PlayerInfo(playerName, playerPosition, playerCollege, playerDraft, playerDebut)
+        playerInfo = new PlayerInfo(playerName, playerPosition, playerCollege, playerDraft, playerDebut, pageUrl)
         @indexer.index(playerInfo)
         @logger.info('Player details: ' + playerInfo)
 
