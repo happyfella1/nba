@@ -7,7 +7,8 @@
         "elasticsearchclient": ">= 0.4.0",
         "jsdom": ">= 0.6.5",
         "request": ">= 2.21.0",
-        "winston": ">= 0.7.2"
+        "winston": ">= 0.7.2",
+        "memwatch": ">= 0.2.2"
     },
     "engine": "node 0.10.12"
 }

@@ -5,9 +5,17 @@ jquery = fs.readFileSync("./lib/jquery/jquery-1.9.1.min.js").toString()
 logger = require('./logger')
 PageHandler = require('./page-handler')
 config = require('./config')
+#memwatch = require('memwatch')
 
 console.log('Crawling ' + config.crawler.rootUrl + config.crawler.startUrl + ' ...')
 logger.info('Crawling ' + config.crawler.rootUrl + config.crawler.startUrl + ' ...')
+
+### Uncomment for memory watch to detect leaks
+memwatch.on('leak', 
+            (info) ->
+                console.log(info)
+)
+###
 
 process.on('uncaughtException', 
             (err) ->
@@ -43,10 +51,6 @@ crawler =
                             resultHandler(config.crawler.rootUrl + relativeUrl, jQuery)
                     })
         )
-
-    crawlingComplete: () =>
-        if (pageCounter == 0)
-            console.log('Done crawling')
 
 pageHandler = new PageHandler(crawler, logger)
 crawler.crawl(config.crawler.startUrl, pageHandler.handleLandingPage, 1)
